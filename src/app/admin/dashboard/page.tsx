@@ -63,6 +63,21 @@ export default function AdminDashboardPage() {
       setBookings(prev)
     } else {
       toast.success(`Booking ${status}`)
+      const booking = bookings.find(b => b.id === id)
+      if (booking && (status === 'approved' || status === 'rejected')) {
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: `booking_${status}`,
+            to: booking.email,
+            name: booking.name,
+            date: booking.date,
+            slot: booking.time_slot,
+            bookingId: booking.id,
+          }),
+        }).catch(() => {})
+      }
     }
     setUpdating(null)
   }

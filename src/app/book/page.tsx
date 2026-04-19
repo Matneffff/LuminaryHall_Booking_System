@@ -139,6 +139,20 @@ export default function BookingPage() {
 
       if (error) throw error
       toast.success('Booking request submitted!')
+
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'booking_submitted',
+          to: form.email.trim(),
+          name: form.name.trim(),
+          date: format(form.date!, 'yyyy-MM-dd'),
+          slot: form.time_slot,
+          bookingId: data.id,
+        }),
+      }).catch(() => {})
+
       router.push(`/book/confirmation?id=${data.id}&name=${encodeURIComponent(form.name)}&date=${format(form.date!, 'yyyy-MM-dd')}&slot=${form.time_slot}`)
     } catch {
       toast.error('Something went wrong. Please try again.')
