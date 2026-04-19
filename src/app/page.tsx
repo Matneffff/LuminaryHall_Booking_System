@@ -41,7 +41,7 @@ export default function HomePage() {
           <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Where Every <span className="text-primary">Moment</span> Becomes a Memory
           </motion.h1>
-          <motion.p variants={fadeUp} className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+          <motion.p variants={fadeUp} className="text-lg text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
             Luminary Hall offers an unparalleled setting for weddings, corporate events, and private celebrations. Timeless elegance, flawless service.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center">
