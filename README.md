@@ -2,7 +2,7 @@
 
 > A premium venue booking web application built for the **Kracked Devs $500 Bounty Challenge**.
 
-🌐 **Live Demo**: https://hall-venue-booking.vercel.app
+🌐 **Live Demo**: https://theluminaryhall.vercel.app
 
 ---
 
