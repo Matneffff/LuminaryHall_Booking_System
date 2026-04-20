@@ -21,7 +21,7 @@ const STATUS_CONFIG: Record<BookingStatus, { label: string; class: string }> = {
 const SLOT_LABELS: Record<string, string> = {
   morning: 'Daylight (8AM–1PM)',
   afternoon: 'Twilight (2PM–7PM)',
-  evening: 'Night (7PM–12AM)',
+  evening: 'Luminary Night (8PM–12AM)',
 }
 
 export default function AdminDashboardPage() {

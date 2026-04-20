@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx vercel *)",
+      "Bash(vercel --version)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(curl *)",
+      "Bash(git commit -m 'docs: add live demo credentials table for evaluators *)",
+      "Bash(git commit -m 'fix: reference ID lookup broken due to ilike on UUID column *)"
+    ]
+  }
+}

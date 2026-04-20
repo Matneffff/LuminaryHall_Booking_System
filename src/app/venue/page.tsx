@@ -29,7 +29,7 @@ const packages = [
   },
   {
     name: 'Luminary Night',
-    time: '7:00 PM – 12:00 AM',
+    time: '8:00 PM – 12:00 AM',
     price: 'RM 7,500',
     features: ['5-hour slot', 'Premium AV + LED wall', 'Tables & chairs', 'Full event crew', 'Bridal suite + VIP lounge', 'Complimentary welcome drinks'],
   },

@@ -19,7 +19,7 @@ import { Progress } from '@/components/ui/progress'
 const TIME_SLOTS = [
   { id: 'morning', label: 'Daylight', time: '8:00 AM – 1:00 PM', price: 'RM 4,500' },
   { id: 'afternoon', label: 'Twilight', time: '2:00 PM – 7:00 PM', price: 'RM 5,500' },
-  { id: 'evening', label: 'Luminary Night', time: '7:00 PM – 12:00 AM', price: 'RM 7,500' },
+  { id: 'evening', label: 'Luminary Night', time: '8:00 PM – 12:00 AM', price: 'RM 7,500' },
 ]
 
 const EVENT_TYPES = ['Wedding', 'Corporate Event', 'Gala / Dinner', 'Birthday Celebration', 'Product Launch', 'Anniversary', 'Other']

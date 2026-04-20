@@ -12,7 +12,7 @@ import { supabase, type Booking } from '@/lib/supabase'
 const SLOT_LABELS: Record<string, string> = {
   morning: 'Daylight — 8:00 AM to 1:00 PM',
   afternoon: 'Twilight — 2:00 PM to 7:00 PM',
-  evening: 'Luminary Night — 7:00 PM to 12:00 AM',
+  evening: 'Luminary Night — 8:00 PM to 12:00 AM',
 }
 
 const SLOT_PRICES: Record<string, string> = {
