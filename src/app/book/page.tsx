@@ -125,19 +125,58 @@ export default function BookingPage() {
     if (!validateStep()) return
     setSubmitting(true)
     try {
+      // Re-check availability right before inserting to catch race conditions
+      const dateKey = format(form.date!, 'yyyy-MM-dd')
+      const { data: existing } = await supabase
+        .from('bookings')
+        .select('id')
+        .eq('date', dateKey)
+        .eq('time_slot', form.time_slot)
+        .in('status', ['pending', 'approved'])
+        .maybeSingle()
+
+      if (existing) {
+        toast.error('This slot was just taken. Please select a different date or time.')
+        // Refresh booked slots so the UI reflects current state
+        const { data: fresh } = await supabase
+          .from('bookings')
+          .select('date, time_slot')
+          .in('status', ['pending', 'approved'])
+        if (fresh) {
+          const map: Record<string, string[]> = {}
+          fresh.forEach(({ date, time_slot }) => {
+            if (!map[date]) map[date] = []
+            map[date].push(time_slot)
+          })
+          setBookedSlots(map)
+        }
+        setStep(1)
+        setSubmitting(false)
+        return
+      }
+
       const { data, error } = await supabase.from('bookings').insert({
         name: form.name.trim(),
         email: form.email.trim(),
         phone: form.phone.trim(),
         event_type: form.event_type,
         guest_count: Number(form.guest_count),
-        date: format(form.date!, 'yyyy-MM-dd'),
+        date: dateKey,
         time_slot: form.time_slot,
         notes: form.notes.trim() || null,
         status: 'pending',
       }).select('id').single()
 
-      if (error) throw error
+      if (error) {
+        // Unique constraint violation — another request beat us in the tiny window
+        if (error.code === '23505') {
+          toast.error('This slot was just taken. Please select a different date or time.')
+          setStep(1)
+          return
+        }
+        throw error
+      }
+
       toast.success('Booking request submitted!')
 
       fetch('/api/send-email', {
@@ -147,13 +186,13 @@ export default function BookingPage() {
           type: 'booking_submitted',
           to: form.email.trim(),
           name: form.name.trim(),
-          date: format(form.date!, 'yyyy-MM-dd'),
+          date: dateKey,
           slot: form.time_slot,
           bookingId: data.id,
         }),
       }).catch(() => {})
 
-      router.push(`/book/confirmation?id=${data.id}&name=${encodeURIComponent(form.name)}&date=${format(form.date!, 'yyyy-MM-dd')}&slot=${form.time_slot}`)
+      router.push(`/book/confirmation?id=${data.id}&name=${encodeURIComponent(form.name)}&date=${dateKey}&slot=${form.time_slot}`)
     } catch {
       toast.error('Something went wrong. Please try again.')
     } finally {

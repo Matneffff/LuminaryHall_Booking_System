@@ -32,3 +32,9 @@ create policy "Anyone can read bookings"
 create policy "Authenticated users can update bookings"
   on public.bookings for update
   using (auth.role() = 'authenticated');
+
+-- Prevent double bookings: only one active booking per (date, time_slot)
+-- 'rejected' bookings are excluded so the slot can be re-opened
+create unique index if not exists bookings_no_double_booking
+  on public.bookings (date, time_slot)
+  where status != 'rejected';
