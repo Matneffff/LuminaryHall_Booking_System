@@ -145,16 +145,25 @@ function StatusContent() {
     setSearched(true)
     setBookings([])
 
-    const { data } = await supabase
-      .from('bookings')
-      .select('*')
-      .or(`id.eq.${id.trim()},id.ilike.${id.trim()}%`)
-      .limit(1)
-      .single()
+    const trimmed = id.trim()
+    const isFullUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(trimmed)
 
-    if (data) {
-      setBookings([data as Booking])
-      router.replace(`/book/status?id=${data.id}`, { scroll: false })
+    let match: Booking | null = null
+
+    if (isFullUUID) {
+      const { data } = await supabase.from('bookings').select('*').eq('id', trimmed).single()
+      match = data as Booking | null
+    } else {
+      // Short ID — fetch recent bookings and match by prefix
+      const { data } = await supabase.from('bookings').select('*').order('created_at', { ascending: false }).limit(500)
+      match = (data as Booking[] | null)?.find(b =>
+        b.id.slice(0, trimmed.length).toLowerCase() === trimmed.toLowerCase()
+      ) ?? null
+    }
+
+    if (match) {
+      setBookings([match])
+      router.replace(`/book/status?id=${match.id}`, { scroll: false })
     } else {
       toast.error('No booking found with that reference ID.')
     }
