@@ -4,6 +4,11 @@
 
 🌐 **Live Demo**: https://theluminaryhall.vercel.app
 
+| Role | URL | Credentials |
+|------|-----|-------------|
+| Guest | https://theluminaryhall.vercel.app | — |
+| Admin | https://theluminaryhall.vercel.app/admin | `admin@luminaryhall.my` / `luminary2026` |
+
 ---
 
 ## Overview
