@@ -17,9 +17,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
 
 const TIME_SLOTS = [
-  { id: 'morning', label: 'Daylight', time: '8:00 AM – 1:00 PM' },
-  { id: 'afternoon', label: 'Twilight', time: '2:00 PM – 7:00 PM' },
-  { id: 'evening', label: 'Luminary Night', time: '7:00 PM – 12:00 AM' },
+  { id: 'morning', label: 'Daylight', time: '8:00 AM – 1:00 PM', price: 'RM 4,500' },
+  { id: 'afternoon', label: 'Twilight', time: '2:00 PM – 7:00 PM', price: 'RM 5,500' },
+  { id: 'evening', label: 'Luminary Night', time: '7:00 PM – 12:00 AM', price: 'RM 7,500' },
 ]
 
 const EVENT_TYPES = ['Wedding', 'Corporate Event', 'Gala / Dinner', 'Birthday Celebration', 'Product Launch', 'Anniversary', 'Other']
@@ -245,16 +245,20 @@ export default function BookingPage() {
                     <div className="space-y-2">
                       {TIME_SLOTS.map(slot => {
                         const booked = isSlotBooked(slot.id)
+                        const selected = form.time_slot === slot.id
                         return (
                           <button key={slot.id} type="button" disabled={booked}
                             onClick={() => set('time_slot', slot.id)}
-                            className={`w-full flex items-center justify-between p-4 rounded-lg border text-left transition-colors ${booked ? 'border-border/30 opacity-40 cursor-not-allowed' : form.time_slot === slot.id ? 'border-primary bg-primary/10' : 'border-border/50 hover:border-primary/40'}`}>
+                            className={`w-full flex items-center justify-between p-4 rounded-lg border text-left transition-colors ${booked ? 'border-border/30 opacity-40 cursor-not-allowed' : selected ? 'border-primary bg-primary/10' : 'border-border/50 hover:border-primary/40'}`}>
                             <div>
                               <p className="font-medium text-sm">{slot.label}</p>
                               <p className="text-muted-foreground text-xs">{slot.time}</p>
                             </div>
-                            {booked && <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">Booked</span>}
-                            {!booked && form.time_slot === slot.id && <span className="text-xs text-primary bg-primary/10 px-2 py-1 rounded">Selected</span>}
+                            <div className="flex items-center gap-2">
+                              <span className={`text-sm font-semibold ${selected ? 'text-primary' : 'text-foreground'}`}>{slot.price}</span>
+                              {booked && <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">Booked</span>}
+                              {!booked && selected && <span className="text-xs text-primary bg-primary/10 px-2 py-1 rounded">Selected</span>}
+                            </div>
                           </button>
                         )
                       })}
@@ -292,6 +296,7 @@ export default function BookingPage() {
                   <div className="flex justify-between"><span className="text-muted-foreground">Guests</span><span>{form.guest_count}</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">Date</span><span>{form.date ? format(form.date, 'MMMM d, yyyy') : '-'}</span></div>
                   <div className="flex justify-between"><span className="text-muted-foreground">Slot</span><span>{TIME_SLOTS.find(s => s.id === form.time_slot)?.time || '-'}</span></div>
+                  <div className="flex justify-between pt-2 border-t border-border/50"><span className="text-muted-foreground font-medium">Estimated Total</span><span className="text-primary font-bold">{TIME_SLOTS.find(s => s.id === form.time_slot)?.price || '-'}</span></div>
                 </div>
               </div>
             )}

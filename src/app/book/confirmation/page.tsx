@@ -84,6 +84,9 @@ function ConfirmationContent() {
           <Link href="/" className="inline-flex items-center justify-center gap-2 border border-border px-6 py-3 rounded text-sm hover:border-primary/60 hover:text-primary transition-colors">
             Back to Home
           </Link>
+          <Link href={`/book/status?id=${id}`} className="inline-flex items-center justify-center gap-2 border border-primary/40 text-primary px-6 py-3 rounded text-sm font-medium hover:bg-primary/10 transition-colors">
+            Check Status
+          </Link>
           <Link href="/venue" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded text-sm font-medium hover:bg-primary/90 transition-colors">
             Explore the Venue <ArrowRight className="w-4 h-4" />
           </Link>
