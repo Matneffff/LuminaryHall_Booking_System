@@ -25,6 +25,9 @@ export function Navbar() {
           <Link href="/venue" className={cn("hover:text-foreground transition-colors", pathname === '/venue' && 'text-foreground')}>
             The Venue
           </Link>
+          <Link href="/book/status" className={cn("hover:text-foreground transition-colors", pathname === '/book/status' && 'text-foreground')}>
+            My Booking
+          </Link>
           <Link href="/book" className="px-4 py-2 bg-primary text-primary-foreground rounded text-sm font-medium hover:bg-primary/90 transition-colors">
             Book Now
           </Link>
@@ -49,6 +52,13 @@ export function Navbar() {
             className={cn("text-muted-foreground hover:text-foreground transition-colors", pathname === '/venue' && 'text-foreground')}
           >
             The Venue
+          </Link>
+          <Link
+            href="/book/status"
+            onClick={() => setOpen(false)}
+            className={cn("text-muted-foreground hover:text-foreground transition-colors", pathname === '/book/status' && 'text-foreground')}
+          >
+            My Booking
           </Link>
           <Link
             href="/book"
